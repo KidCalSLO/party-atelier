@@ -27,6 +27,7 @@ export interface Product {
   color_tags: string[];
   style_tags: string[];
   unit?: string; // "pack of 50", "each"
+  image?: string; // product photo URL (from a real feed, or representative)
 }
 
 export interface PickedItem extends Product {

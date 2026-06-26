@@ -260,7 +260,18 @@ function Results({ plan }: { plan: PartyPlan }) {
                       color: CATEGORY_INK[c.category],
                     }}
                   >
-                    {MONOGRAM[c.category]}
+                    <span className="mono">{MONOGRAM[c.category]}</span>
+                    {item.image && (
+                      <img
+                        className="tile-img"
+                        src={item.image}
+                        alt={item.title}
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                    )}
                   </div>
                   <div className="body">
                     <span className="title">{item.title}</span>
@@ -286,9 +297,10 @@ function Results({ plan }: { plan: PartyPlan }) {
       )}
 
       <div className="disclaimer">
-        Shopping links are search links at your chosen retailer — set{" "}
-        <code>AFFILIATE_TAG</code> in your environment to earn on them. The palette
-        is a styling direction, not the exact products listed.
+        Product photos are representative styling references; the shopping links
+        are search links at your chosen retailer (set <code>AFFILIATE_TAG</code> to
+        earn on them). Connect a real product feed to show exact-product photos and
+        direct buy links.
       </div>
     </section>
   );

@@ -37,6 +37,37 @@ function buildBuyUrl(title: string): string {
     .replace("{tag}", encodeURIComponent(tag));
 }
 
+// Category keyword to steer representative photos toward the right kind of item.
+const IMAGE_KEYWORD: Record<Category, string> = {
+  decor: "decoration",
+  tableware: "tableware",
+  lighting: "lights",
+  food_drink: "food",
+  activities: "games",
+  favors: "gift",
+};
+
+// Returns a product photo. If the catalog row carries a real image (from a
+// real product feed later), use it. Otherwise build a stable, relevant
+// representative photo from the product's own words — so cards look like
+// product cards today, and swap to exact photos the moment you connect a feed.
+function imageFor(p: Product): string {
+  if (p.image) return p.image;
+  const firstWord =
+    p.title
+      .toLowerCase()
+      .replace(/[^a-z\s]/g, "")
+      .split(/\s+/)
+      .find((w) => w.length > 3) || "party";
+  const lock = Math.abs(
+    Array.from(p.id).reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7)
+  );
+  const keywords = `${firstWord},party,${IMAGE_KEYWORD[p.category]}`;
+  return `https://loremflickr.com/600/450/${encodeURIComponent(
+    keywords
+  )}?lock=${lock}`;
+}
+
 function overlap(a: string[], b: string[]): number {
   const set = new Set(b.map((x) => x.toLowerCase()));
   return a.filter((x) => set.has(x.toLowerCase())).length;
@@ -87,6 +118,7 @@ function pickForCategory(
       items.push({
         ...p,
         buyUrl: buildBuyUrl(p.title),
+        image: imageFor(p),
       });
       spent += p.price;
     }
