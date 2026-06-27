@@ -760,3 +760,98 @@ button.cta:disabled {
   font-weight: 600;
   color: var(--gold);
 }
+
+/* theme gallery */
+.themes-section {
+  padding-top: 64px;
+  padding-bottom: 4px;
+}
+
+.themes-head {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.themes-head .label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.themes-head h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 500;
+  font-size: clamp(28px, 4vw, 40px);
+  margin: 0 0 8px;
+}
+
+.themes-sub {
+  color: var(--taupe);
+  margin: 0;
+}
+
+.themes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.theme-card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--ivory-2);
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+
+.theme-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.theme-card:hover img {
+  transform: scale(1.05);
+}
+
+.theme-card .veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(20, 16, 14, 0.84) 0%,
+    rgba(20, 16, 14, 0.18) 52%,
+    rgba(20, 16, 14, 0) 100%
+  );
+}
+
+.theme-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px 16px 18px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.theme-name {
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+.theme-blurb {
+  font-family: "Jost", sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.86);
+}

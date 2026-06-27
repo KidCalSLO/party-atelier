@@ -32,6 +32,67 @@ const MONOGRAM: Record<Category, string> = {
   favors: "F",
 };
 
+type Theme = {
+  id: string;
+  name: string;
+  blurb: string;
+  starter: string;
+  image: string;
+};
+
+// Homepage inspiration gallery. Swap each `image` for your own curated or
+// AI-generated theme photo whenever you like — the layout stays the same.
+const THEMES: Theme[] = [
+  {
+    id: "woodland-fairy",
+    name: "Woodland Fairy",
+    blurb: "Sage, gold & greenery with paper lanterns and fairy lights.",
+    starter:
+      "A woodland-fairy birthday with sage green and gold, paper lanterns, fairy lights, lots of greenery, and a little craft table.",
+    image: "https://loremflickr.com/600/750/fairy,forest,party?lock=201",
+  },
+  {
+    id: "boho-garden",
+    name: "Boho Garden",
+    blurb: "Pampas, terracotta & cream for a relaxed, pretty party.",
+    starter:
+      "A boho garden party with pampas grass, terracotta and cream, candlelight, a grazing table, and a relaxed, grown-up-pretty feel.",
+    image: "https://loremflickr.com/600/750/boho,garden,party?lock=202",
+  },
+  {
+    id: "under-the-sea",
+    name: "Under the Sea",
+    blurb: "Soft blues, pearls & shells, calm and dreamy.",
+    starter:
+      "An under-the-sea party with soft blues, pearls and shells, waves of streamers, and a calm, dreamy vibe.",
+    image: "https://loremflickr.com/600/750/ocean,party,decoration?lock=203",
+  },
+  {
+    id: "vintage-tea",
+    name: "Vintage Tea Party",
+    blurb: "Pastel florals, lace & dainty china.",
+    starter:
+      "A vintage tea party with pastel florals, lace, dainty china, and a sweet, old-fashioned charm.",
+    image: "https://loremflickr.com/600/750/tea,party,vintage?lock=204",
+  },
+  {
+    id: "enchanted-princess",
+    name: "Enchanted Princess",
+    blurb: "Blush, gold & tulle with a touch of sparkle.",
+    starter:
+      "An enchanted princess party with blush and gold, tulle, a touch of sparkle, and a magical castle feel.",
+    image: "https://loremflickr.com/600/750/princess,party,pink?lock=205",
+  },
+  {
+    id: "safari-adventure",
+    name: "Safari Adventure",
+    blurb: "Warm neutrals, greenery & playful animal touches.",
+    starter:
+      "A safari adventure party with warm neutrals, greenery, animal touches, and a playful explorer feel.",
+    image: "https://loremflickr.com/600/750/safari,animals,party?lock=206",
+  },
+];
+
 const money = (n: number) =>
   n.toLocaleString(undefined, { style: "currency", currency: "USD" });
 
@@ -88,6 +149,13 @@ export default function Home() {
     return parts.join(" ");
   }
 
+  function pickTheme(t: Theme) {
+    setMode("simple");
+    setText(t.starter);
+    setError(null);
+    document.getElementById("brief")?.scrollIntoView({ behavior: "smooth" });
+  }
+
   async function generate() {
     const activeText = mode === "simple" ? text : composeStudio();
     if (!activeText.trim()) {
@@ -127,7 +195,7 @@ export default function Home() {
         <span className="wordmark">Party Atelier</span>
         <nav className="navlinks">
           <a href="#brief">How It Works</a>
-          <a href="#brief">Ideas</a>
+          <a href="#themes">Ideas</a>
           <a href="#brief">Begin</a>
         </nav>
       </header>
@@ -144,6 +212,35 @@ export default function Home() {
             working with. We&apos;ll style it beautifully and hand you a simple
             shopping list — high-end looks, do-it-yourself prices.
           </p>
+        </div>
+      </section>
+
+      <section className="section themes-section" id="themes">
+        <div className="themes-head">
+          <span className="label">Start from a theme</span>
+          <h2 className="serif">Need a spark? Begin here.</h2>
+          <p className="themes-sub">
+            Tap a look to start your plan — or describe your own below.
+          </p>
+        </div>
+        <div className="themes-grid">
+          {THEMES.map((t) => (
+            <button className="theme-card" key={t.id} onClick={() => pickTheme(t)}>
+              <img
+                src={t.image}
+                alt={t.name}
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+              />
+              <span className="veil" />
+              <span className="theme-cap">
+                <span className="theme-name serif">{t.name}</span>
+                <span className="theme-blurb">{t.blurb}</span>
+              </span>
+            </button>
+          ))}
         </div>
       </section>
 
