@@ -1,4 +1,4 @@
-import type { PartyBrief } from "./types";
+import type { DiyGuide, PartyBrief } from "./types";
 
 const API_URL = "https://api.anthropic.com/v1/messages";
 
@@ -122,4 +122,89 @@ export async function parseDesires(
       : [],
     must_haves: Array.isArray(input.must_haves) ? input.must_haves : [],
   };
+}
+
+const GUIDES_TOOL = {
+  name: "diy_guides",
+  description:
+    "Friendly, step-by-step DIY guides for the elements of this party a parent can assemble themselves, based on the items they are buying.",
+  input_schema: {
+    type: "object" as const,
+    properties: {
+      guides: {
+        type: "array",
+        description: "3 to 5 guides for the most worthwhile do-it-yourself elements",
+        items: {
+          type: "object",
+          properties: {
+            title: { type: "string", description: "e.g. Build the balloon arch" },
+            uses: {
+              type: "array",
+              items: { type: "string" },
+              description: "which of the purchased items this guide uses",
+            },
+            time: { type: "string", description: "rough time, e.g. About 45 minutes" },
+            difficulty: {
+              type: "string",
+              enum: ["Easy", "Medium", "Advanced"],
+            },
+            steps: {
+              type: "array",
+              items: { type: "string" },
+              description: "concise ordered steps a non-expert can follow",
+            },
+          },
+          required: ["title", "time", "difficulty", "steps"],
+        },
+      },
+    },
+    required: ["guides"],
+  },
+};
+
+export async function generateGuides(
+  brief: PartyBrief,
+  itemTitles: string[]
+): Promise<DiyGuide[]> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return [];
+  const model = process.env.ANTHROPIC_MODEL || "claude-haiku-4-5";
+
+  const prompt =
+    `Party: ${brief.headline} — ${brief.occasion}, ${brief.vibe}. ` +
+    `Items the host is buying:\n- ${itemTitles.join("\n- ")}\n\n` +
+    "Write 3-5 short, encouraging DIY guides for the elements they can assemble " +
+    "themselves (for example a balloon arch, a grazing table, a backdrop, a craft " +
+    "station, favor bags). Only cover things that make sense to DIY from the items " +
+    "above. Keep each step concise and doable by a busy parent who is not crafty.";
+
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: 1600,
+      tools: [GUIDES_TOOL],
+      tool_choice: { type: "tool", name: "diy_guides" },
+      messages: [{ role: "user", content: [{ type: "text", text: prompt }] }],
+    }),
+  });
+
+  if (!res.ok) return [];
+  const data = await res.json();
+  const toolUse = (data.content || []).find((b: any) => b.type === "tool_use");
+  const guides = toolUse?.input?.guides;
+  if (!Array.isArray(guides)) return [];
+
+  return guides.map((g: any) => ({
+    title: g.title ?? "Guide",
+    uses: Array.isArray(g.uses) ? g.uses : [],
+    time: g.time ?? "",
+    difficulty: g.difficulty ?? "Easy",
+    steps: Array.isArray(g.steps) ? g.steps : [],
+  }));
 }

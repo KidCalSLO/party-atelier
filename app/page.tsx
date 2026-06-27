@@ -314,7 +314,7 @@ export default function Home() {
 }
 
 function Results({ plan }: { plan: PartyPlan }) {
-  const { brief, moodboard, categories, total, budget } = plan;
+  const { brief, moodboard, categories, total, budget, guides } = plan;
   const palette = moodboard.palette.length
     ? moodboard.palette
     : ["#e2b0b4", "#bccab3", "#e6cf9e", "#b9cad9"];
@@ -442,6 +442,40 @@ function Results({ plan }: { plan: PartyPlan }) {
             </div>
           </div>
         )
+      )}
+
+      {guides && guides.length > 0 && (
+        <div className="cat">
+          <div className="cat-head">
+            <h3>How to make it</h3>
+            <span className="spend">
+              {guides.length} {guides.length === 1 ? "guide" : "guides"}
+            </span>
+          </div>
+          <div className="guides">
+            {guides.map((g, i) => (
+              <details className="guide" key={i} open={i === 0}>
+                <summary>
+                  <span className="guide-title serif">{g.title}</span>
+                  <span className="guide-meta">
+                    {g.difficulty}
+                    {g.time ? ` · ${g.time}` : ""}
+                  </span>
+                </summary>
+                <div className="guide-body">
+                  {g.uses && g.uses.length > 0 && (
+                    <p className="guide-uses">Uses: {g.uses.join(", ")}</p>
+                  )}
+                  <ol>
+                    {g.steps.map((s, j) => (
+                      <li key={j}>{s}</li>
+                    ))}
+                  </ol>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
       )}
 
       <div className="disclaimer">

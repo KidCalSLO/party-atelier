@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { parseDesires } from "@/lib/anthropic";
+import { parseDesires, generateGuides } from "@/lib/anthropic";
 import { allocateBudget } from "@/lib/budget";
 import { getCatalog, buildCategoryPlans } from "@/lib/catalog";
 import { buildMoodBoard } from "@/lib/render";
@@ -39,7 +39,18 @@ export async function POST(req: Request) {
     // Job 3: visual preview
     const moodboard = await buildMoodBoard(brief);
 
-    const plan: PartyPlan = { brief, budget, total, categories, moodboard };
+    // Job 4: DIY how-to guides for the things they're buying (resilient)
+    const itemTitles = categories.flatMap((c) => c.items.map((i) => i.title));
+    const guides = await generateGuides(brief, itemTitles).catch(() => []);
+
+    const plan: PartyPlan = {
+      brief,
+      budget,
+      total,
+      categories,
+      moodboard,
+      guides,
+    };
     return NextResponse.json(plan);
   } catch (err: any) {
     const message = err?.message || "Something went wrong generating your plan.";

@@ -676,3 +676,87 @@ button.cta:disabled {
     transition: none !important;
   }
 }
+
+/* DIY how-to guides */
+.guides {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.guide {
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+
+.guide summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+}
+
+.guide summary::-webkit-details-marker {
+  display: none;
+}
+
+.guide .guide-title {
+  flex: 1;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.guide .guide-meta {
+  font-family: "Jost", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 11px;
+  color: var(--taupe);
+  white-space: nowrap;
+}
+
+.guide summary::after {
+  content: "+";
+  font-family: "Jost", sans-serif;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--gold);
+}
+
+.guide[open] summary::after {
+  content: "\2013";
+}
+
+.guide-body {
+  padding: 0 20px 20px;
+}
+
+.guide-uses {
+  font-family: "Jost", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  color: var(--taupe);
+  margin: 0 0 14px;
+  padding-top: 4px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.guide-body ol {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.guide-body li {
+  margin-bottom: 9px;
+  line-height: 1.62;
+}
+
+.guide-body li::marker {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  color: var(--gold);
+}

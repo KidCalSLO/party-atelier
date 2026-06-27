@@ -50,10 +50,19 @@ export interface MoodBoard {
   imageUrl: string | null; // set when an image provider is wired up
 }
 
+export interface DiyGuide {
+  title: string; // "Build the balloon arch"
+  uses: string[]; // which purchased items this guide uses
+  time: string; // "About 45 minutes"
+  difficulty: string; // Easy | Medium | Advanced
+  steps: string[]; // ordered steps
+}
+
 export interface PartyPlan {
   brief: PartyBrief;
   budget: number;
   total: number;
   categories: CategoryPlan[];
   moodboard: MoodBoard;
+  guides: DiyGuide[];
 }
