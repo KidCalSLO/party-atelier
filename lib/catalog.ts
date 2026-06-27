@@ -6,6 +6,7 @@ import type {
   Product,
 } from "./types";
 import { CATEGORY_LABELS } from "./budget";
+import { searchLiveProducts } from "./products";
 import seed from "@/data/seed-catalog.json";
 
 const SEED = seed as Product[];
@@ -134,11 +135,61 @@ function pickForCategory(
   };
 }
 
-export function buildCategoryPlans(
+// Build one category from real, live shopping results (cheapest-first within
+// budget). Returns null if live search is unavailable, so the caller can fall
+// back to the seed catalog for that category.
+async function pickLiveCategory(
+  category: Category,
+  budget: number,
+  brief: PartyBrief
+): Promise<CategoryPlan | null> {
+  const keywords = [
+    ...brief.style_tags.slice(0, 2),
+    ...brief.color_names.slice(0, 1),
+  ].join(" ");
+
+  const live = await searchLiveProducts(category, keywords, budget);
+  if (!live || live.length === 0) return null;
+
+  const ranked = live.sort((a, b) => a.price - b.price); // best deal first
+
+  const items: PickedItem[] = [];
+  let spent = 0;
+  for (const p of ranked) {
+    if (items.length >= 4) break;
+    if (spent + p.price <= budget * 1.1 || items.length === 0) {
+      items.push({
+        id: p.id,
+        title: p.title,
+        category,
+        price: p.price,
+        color_tags: [],
+        style_tags: [],
+        unit: p.source ? `at ${p.source}` : undefined,
+        image: p.image,
+        buyUrl: p.buyUrl,
+        score: 0,
+        reason: p.source ? `Best price found at ${p.source}` : "Best price found",
+      });
+      spent += p.price;
+    }
+    if (spent >= budget * 0.85 && items.length >= 2) break;
+  }
+
+  return {
+    category,
+    label: CATEGORY_LABELS[category],
+    budget: Math.round(budget * 100) / 100,
+    spent: Math.round(spent * 100) / 100,
+    items,
+  };
+}
+
+export async function buildCategoryPlans(
   allocations: Record<Category, number>,
   brief: PartyBrief,
   catalog: Product[]
-): CategoryPlan[] {
+): Promise<CategoryPlan[]> {
   const order: Category[] = [
     "decor",
     "tableware",
@@ -147,5 +198,17 @@ export function buildCategoryPlans(
     "activities",
     "favors",
   ];
+
+  // Live mode: pull real products with real photos/prices/links in parallel,
+  // and fall back to the seed catalog for any category the API can't fill.
+  if (process.env.PRODUCT_API_KEY) {
+    const live = await Promise.all(
+      order.map((c) => pickLiveCategory(c, allocations[c] ?? 0, brief))
+    );
+    return order.map(
+      (c, i) => live[i] ?? pickForCategory(c, allocations[c] ?? 0, brief, catalog)
+    );
+  }
+
   return order.map((c) => pickForCategory(c, allocations[c] ?? 0, brief, catalog));
 }

@@ -60,6 +60,23 @@ with an affiliate network you can join today (Impact / ShareASale / CJ, or
 Amazon Associates once eligible), then later bring your top SKUs in-house with
 Stripe checkout.
 
+## Real product photos, prices, and links (live shopping API)
+
+By default the planner uses the bundled seed catalog with representative photos.
+To show **real products** — real photos, live prices sorted to the best deal, and
+direct buy links — add a shopping-API key:
+
+1. Sign up for a Google Shopping API (e.g. https://serpapi.com has a free tier).
+2. Put the key in `.env.local` (and in Vercel's Environment Variables):
+   ```
+   PRODUCT_API_KEY=your_key_here
+   ```
+The app switches to live products automatically and falls back to the seed catalog
+for any category the API can't fill. Each plan makes up to ~6 shopping searches, so
+mind your plan's monthly search quota. Note: live buy links go straight to the
+merchant and aren't affiliate-attributed — wrap them in your affiliate network's
+deep links later to earn on live results.
+
 ## Add real renders (Job 3)
 
 Set `IMAGE_API_KEY` and implement `generateImage()` in `lib/render.ts` with your

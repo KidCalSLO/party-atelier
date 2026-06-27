@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     // Job 2: budget split + product matching
     const allocations = allocateBudget(budget, brief);
     const catalog = await getCatalog();
-    const categories = buildCategoryPlans(allocations, brief, catalog);
+    const categories = await buildCategoryPlans(allocations, brief, catalog);
     const total =
       Math.round(categories.reduce((sum, c) => sum + c.spent, 0) * 100) / 100;
 
@@ -50,6 +50,7 @@ export async function POST(req: Request) {
       categories,
       moodboard,
       guides,
+      live: !!process.env.PRODUCT_API_KEY,
     };
     return NextResponse.json(plan);
   } catch (err: any) {

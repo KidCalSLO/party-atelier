@@ -479,10 +479,20 @@ function Results({ plan }: { plan: PartyPlan }) {
       )}
 
       <div className="disclaimer">
-        Product photos are representative styling references; the shopping links
-        are search links at your chosen retailer (set <code>AFFILIATE_TAG</code> to
-        earn on them). Connect a real product feed to show exact-product photos and
-        direct buy links.
+        {plan.live ? (
+          <>
+            Photos, prices, and buy links are pulled live from real shopping
+            listings, sorted to surface the best price. Prices and availability can
+            change at checkout.
+          </>
+        ) : (
+          <>
+            Product photos are representative styling references; the shopping links
+            are search links at your chosen retailer (set{" "}
+            <code>AFFILIATE_TAG</code> to earn on them). Add a shopping-API key to
+            show real photos, live prices, and direct buy links.
+          </>
+        )}
       </div>
     </section>
   );

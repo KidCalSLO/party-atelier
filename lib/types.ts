@@ -65,4 +65,5 @@ export interface PartyPlan {
   categories: CategoryPlan[];
   moodboard: MoodBoard;
   guides: DiyGuide[];
+  live: boolean;
 }
