@@ -195,7 +195,8 @@ body {
 
 textarea,
 input[type="number"],
-input[type="text"] {
+input[type="text"],
+select {
   width: 100%;
   font-family: "Jost", sans-serif;
   font-size: 16px;
@@ -207,14 +208,55 @@ input[type="text"] {
   resize: vertical;
 }
 
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
 textarea::placeholder {
   color: #a89e90;
 }
 
 textarea:focus,
-input:focus {
+input:focus,
+select:focus {
   outline: none;
   border-color: var(--gold);
+}
+
+.mode-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.mode-toggle button {
+  font-family: "Jost", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 11px 24px;
+  background: transparent;
+  color: var(--ink-2);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mode-toggle button + button {
+  border-left: none;
+}
+
+.mode-toggle button.active {
+  background: var(--ink);
+  color: var(--ivory);
+  border-color: var(--ink);
+}
+
+.mode-toggle button:not(.active):hover {
+  color: var(--ink);
 }
 
 textarea {

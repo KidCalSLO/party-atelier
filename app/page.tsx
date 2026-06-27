@@ -3,6 +3,8 @@
 import { useState } from "react";
 import type { Category, PartyPlan } from "@/lib/types";
 
+type Mode = "simple" | "studio";
+
 const CATEGORY_COLOR: Record<Category, string> = {
   decor: "#e2b0b4",
   tableware: "#bccab3",
@@ -34,13 +36,29 @@ const money = (n: number) =>
   n.toLocaleString(undefined, { style: "currency", currency: "USD" });
 
 export default function Home() {
-  const [text, setText] = useState("");
+  const [mode, setMode] = useState<Mode>("simple");
+
+  // shared
   const [budget, setBudget] = useState("200");
   const [image, setImage] = useState<{
     data: string;
     mediaType: string;
     preview: string;
   } | null>(null);
+
+  // simple
+  const [text, setText] = useState("");
+
+  // studio
+  const [occasion, setOccasion] = useState("");
+  const [guests, setGuests] = useState("");
+  const [dateSeason, setDateSeason] = useState("");
+  const [setting, setSetting] = useState("");
+  const [location, setLocation] = useState("");
+  const [vision, setVision] = useState("");
+  const [mustHaves, setMustHaves] = useState("");
+  const [avoid, setAvoid] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [plan, setPlan] = useState<PartyPlan | null>(null);
@@ -57,7 +75,29 @@ export default function Home() {
     reader.readAsDataURL(file);
   }
 
+  function composeStudio(): string {
+    const parts: string[] = [];
+    if (occasion) parts.push(`Occasion: ${occasion}.`);
+    if (guests) parts.push(`Expected guests: ${guests}.`);
+    if (dateSeason) parts.push(`Date or time of year: ${dateSeason}.`);
+    if (setting) parts.push(`Setting: ${setting}.`);
+    if (location) parts.push(`Location: ${location}.`);
+    if (vision) parts.push(`Vision and vibe: ${vision}.`);
+    if (mustHaves) parts.push(`Must-haves: ${mustHaves}.`);
+    if (avoid) parts.push(`Please avoid: ${avoid}.`);
+    return parts.join(" ");
+  }
+
   async function generate() {
+    const activeText = mode === "simple" ? text : composeStudio();
+    if (!activeText.trim()) {
+      setError(
+        mode === "simple"
+          ? "Tell us about your party first."
+          : "Fill in at least the occasion or the vision."
+      );
+      return;
+    }
     setLoading(true);
     setError(null);
     setPlan(null);
@@ -66,7 +106,7 @@ export default function Home() {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          text,
+          text: activeText,
           budget: Number(budget),
           image: image ? { data: image.data, mediaType: image.mediaType } : undefined,
         }),
@@ -109,17 +149,125 @@ export default function Home() {
 
       <main className="section" id="brief">
         <div className="brief-form">
-          <span className="label">Begin the brief</span>
-          <h2 className="serif">Tell us what you&apos;re dreaming of</h2>
+          <div className="mode-toggle">
+            <button
+              className={mode === "simple" ? "active" : ""}
+              onClick={() => setMode("simple")}
+            >
+              Inspire Me
+            </button>
+            <button
+              className={mode === "studio" ? "active" : ""}
+              onClick={() => setMode("studio")}
+            >
+              Design Studio
+            </button>
+          </div>
 
-          <label className="field">
-            <span className="field-label">The occasion &amp; vision</span>
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="A woodland-fairy 5th birthday for ~15 kids. Soft sage and gold, paper lanterns, a little craft table, a balloon arch, and a simple cake bar."
-            />
-          </label>
+          <span className="label">
+            {mode === "simple" ? "Begin the brief" : "The full brief"}
+          </span>
+          <h2 className="serif">
+            {mode === "simple"
+              ? "Tell us what you're dreaming of"
+              : "Let's get every detail right"}
+          </h2>
+
+          {mode === "simple" ? (
+            <label className="field">
+              <span className="field-label">The occasion &amp; vision</span>
+              <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="A woodland-fairy 5th birthday for ~15 kids. Soft sage and gold, paper lanterns, a little craft table, a balloon arch, and a simple cake bar."
+              />
+            </label>
+          ) : (
+            <>
+              <div className="row">
+                <label className="field">
+                  <span className="field-label">Occasion</span>
+                  <input
+                    type="text"
+                    value={occasion}
+                    onChange={(e) => setOccasion(e.target.value)}
+                    placeholder="Birthday, baby shower, graduation…"
+                  />
+                </label>
+                <label className="field">
+                  <span className="field-label">Expected guests</span>
+                  <input
+                    type="number"
+                    min={1}
+                    value={guests}
+                    onChange={(e) => setGuests(e.target.value)}
+                    placeholder="15"
+                  />
+                </label>
+              </div>
+
+              <div className="row">
+                <label className="field">
+                  <span className="field-label">Date or time of year</span>
+                  <input
+                    type="text"
+                    value={dateSeason}
+                    onChange={(e) => setDateSeason(e.target.value)}
+                    placeholder="April, or spring"
+                  />
+                </label>
+                <label className="field">
+                  <span className="field-label">Setting</span>
+                  <select value={setting} onChange={(e) => setSetting(e.target.value)}>
+                    <option value="">Select…</option>
+                    <option value="Indoor">Indoor</option>
+                    <option value="Outdoor">Outdoor</option>
+                    <option value="Both indoor and outdoor">
+                      Both indoor &amp; outdoor
+                    </option>
+                  </select>
+                </label>
+              </div>
+
+              <label className="field">
+                <span className="field-label">Location — optional</span>
+                <input
+                  type="text"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="City, or the venue"
+                />
+              </label>
+
+              <label className="field">
+                <span className="field-label">The look &amp; feel</span>
+                <textarea
+                  value={vision}
+                  onChange={(e) => setVision(e.target.value)}
+                  placeholder="Soft and whimsical — sage green and gold, fairy lights, lots of greenery."
+                />
+              </label>
+
+              <div className="row">
+                <label className="field">
+                  <span className="field-label">Must-haves</span>
+                  <textarea
+                    value={mustHaves}
+                    onChange={(e) => setMustHaves(e.target.value)}
+                    placeholder="Balloon arch, craft table, cake bar"
+                  />
+                </label>
+                <label className="field">
+                  <span className="field-label">Things to avoid</span>
+                  <textarea
+                    value={avoid}
+                    onChange={(e) => setAvoid(e.target.value)}
+                    placeholder="No plastic, no character themes"
+                  />
+                </label>
+              </div>
+            </>
+          )}
 
           <div className="row">
             <label className="field">
