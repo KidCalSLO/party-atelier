@@ -1,0 +1,43 @@
+[
+  { "id": "dec-01", "title": "Pampas grass bundle (10 stems)", "category": "decor", "price": 24, "unit": "bundle", "color_tags": ["terracotta", "cream"], "style_tags": ["boho", "rustic"] },
+  { "id": "dec-02", "title": "Balloon garland kit, blush & gold", "category": "decor", "price": 22, "unit": "kit", "color_tags": ["blush", "gold", "pink"], "style_tags": ["glam", "whimsical"] },
+  { "id": "dec-03", "title": "Eucalyptus garland, 6 ft", "category": "decor", "price": 18, "unit": "each", "color_tags": ["green", "sage"], "style_tags": ["elegant", "rustic"] },
+  { "id": "dec-04", "title": "Foil fringe backdrop, gold", "category": "decor", "price": 15, "unit": "each", "color_tags": ["gold"], "style_tags": ["glam", "modern"] },
+  { "id": "dec-05", "title": "Linen table runner, terracotta", "category": "decor", "price": 16, "unit": "each", "color_tags": ["terracotta", "rust"], "style_tags": ["boho", "rustic"] },
+  { "id": "dec-06", "title": "Tissue paper flower set", "category": "decor", "price": 20, "unit": "set of 8", "color_tags": ["pink", "cream"], "style_tags": ["whimsical", "vintage"] },
+  { "id": "dec-07", "title": "Geometric centerpiece vases (set of 3)", "category": "decor", "price": 28, "unit": "set", "color_tags": ["clear", "gold"], "style_tags": ["modern", "minimal"] },
+
+  { "id": "tbl-01", "title": "Cream dinner plates (pack of 50)", "category": "tableware", "price": 19, "unit": "pack of 50", "color_tags": ["cream", "white"], "style_tags": ["elegant", "minimal"] },
+  { "id": "tbl-02", "title": "Gold-rim cocktail napkins (pack of 100)", "category": "tableware", "price": 11, "unit": "pack of 100", "color_tags": ["gold", "white"], "style_tags": ["glam", "elegant"] },
+  { "id": "tbl-03", "title": "Bamboo cutlery set (50 sets)", "category": "tableware", "price": 14, "unit": "50 sets", "color_tags": ["kraft"], "style_tags": ["rustic", "modern"] },
+  { "id": "tbl-04", "title": "Terracotta paper cups (pack of 50)", "category": "tableware", "price": 12, "unit": "pack of 50", "color_tags": ["terracotta"], "style_tags": ["boho", "rustic"] },
+  { "id": "tbl-05", "title": "Matte black dinnerware set", "category": "tableware", "price": 26, "unit": "set", "color_tags": ["black"], "style_tags": ["modern", "elegant"] },
+  { "id": "tbl-06", "title": "Kraft charger plates (set of 12)", "category": "tableware", "price": 17, "unit": "set of 12", "color_tags": ["kraft"], "style_tags": ["rustic", "vintage"] },
+
+  { "id": "lit-01", "title": "Warm LED fairy lights, 33 ft", "category": "lighting", "price": 13, "unit": "each", "color_tags": ["gold"], "style_tags": ["whimsical", "boho"] },
+  { "id": "lit-02", "title": "Flameless taper candles (set of 12)", "category": "lighting", "price": 22, "unit": "set of 12", "color_tags": ["cream"], "style_tags": ["elegant", "glam"] },
+  { "id": "lit-03", "title": "Edison bulb string lights, 48 ft", "category": "lighting", "price": 25, "unit": "each", "color_tags": ["gold"], "style_tags": ["rustic", "vintage"] },
+  { "id": "lit-04", "title": "Neon 'party' wall sign", "category": "lighting", "price": 34, "unit": "each", "color_tags": ["neon", "pink"], "style_tags": ["neon", "modern"] },
+  { "id": "lit-05", "title": "Tealight candles (pack of 50)", "category": "lighting", "price": 10, "unit": "pack of 50", "color_tags": ["white"], "style_tags": ["minimal", "elegant"] },
+  { "id": "lit-06", "title": "Paper lantern set (multicolor)", "category": "lighting", "price": 16, "unit": "set of 10", "color_tags": ["white", "multicolor"], "style_tags": ["whimsical", "tropical"] },
+
+  { "id": "fd-01", "title": "XL wood grazing board", "category": "food_drink", "price": 30, "unit": "each", "color_tags": ["kraft"], "style_tags": ["rustic", "boho"] },
+  { "id": "fd-02", "title": "Glass beverage dispenser, 2 gal", "category": "food_drink", "price": 24, "unit": "each", "color_tags": ["clear"], "style_tags": ["modern", "elegant"] },
+  { "id": "fd-03", "title": "Cocktail mixer kit", "category": "food_drink", "price": 28, "unit": "kit", "color_tags": ["gold"], "style_tags": ["glam", "modern"] },
+  { "id": "fd-04", "title": "Marble-look cake stand", "category": "food_drink", "price": 21, "unit": "each", "color_tags": ["white"], "style_tags": ["elegant", "minimal"] },
+  { "id": "fd-05", "title": "Mini cocktail glasses (set of 24)", "category": "food_drink", "price": 18, "unit": "set of 24", "color_tags": ["clear", "gold"], "style_tags": ["glam", "vintage"] },
+  { "id": "fd-06", "title": "Acrylic drink tubs (set of 2)", "category": "food_drink", "price": 19, "unit": "set of 2", "color_tags": ["clear"], "style_tags": ["modern", "tropical"] },
+
+  { "id": "act-01", "title": "Photo booth prop set", "category": "activities", "price": 12, "unit": "set", "color_tags": ["multicolor"], "style_tags": ["whimsical", "vintage"] },
+  { "id": "act-02", "title": "Lawn games set (cornhole + ring toss)", "category": "activities", "price": 35, "unit": "set", "color_tags": ["multicolor"], "style_tags": ["rustic", "whimsical"] },
+  { "id": "act-03", "title": "Tabletop trivia cards", "category": "activities", "price": 14, "unit": "deck", "color_tags": ["multicolor"], "style_tags": ["modern", "minimal"] },
+  { "id": "act-04", "title": "DIY flower crown kit", "category": "activities", "price": 26, "unit": "kit", "color_tags": ["pink", "green"], "style_tags": ["boho", "whimsical"] },
+  { "id": "act-05", "title": "8-inch disco ball", "category": "activities", "price": 16, "unit": "each", "color_tags": ["multicolor"], "style_tags": ["glam", "neon"] },
+  { "id": "act-06", "title": "Guest book sign + pens", "category": "activities", "price": 15, "unit": "set", "color_tags": ["cream"], "style_tags": ["elegant", "minimal"] },
+
+  { "id": "fav-01", "title": "Kraft favor bags (set of 24)", "category": "favors", "price": 9, "unit": "set of 24", "color_tags": ["kraft"], "style_tags": ["rustic", "boho"] },
+  { "id": "fav-02", "title": "Mini candle favors (set of 12)", "category": "favors", "price": 24, "unit": "set of 12", "color_tags": ["cream", "gold"], "style_tags": ["elegant", "glam"] },
+  { "id": "fav-03", "title": "Seed packet favors (set of 24)", "category": "favors", "price": 13, "unit": "set of 24", "color_tags": ["green", "kraft"], "style_tags": ["boho", "whimsical"] },
+  { "id": "fav-04", "title": "Organza gift pouches (set of 24)", "category": "favors", "price": 11, "unit": "set of 24", "color_tags": ["blush"], "style_tags": ["glam", "vintage"] },
+  { "id": "fav-05", "title": "Personalized matchbox favors", "category": "favors", "price": 18, "unit": "set of 50", "color_tags": ["black", "gold"], "style_tags": ["modern", "vintage"] }
+]
