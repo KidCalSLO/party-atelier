@@ -37,59 +37,67 @@ type Theme = {
   name: string;
   blurb: string;
   starter: string;
-  image: string;
+  image: string; // your AI-generated photo at /public/themes/<id>.jpg
+  fallback: string; // representative photo shown until you add your own
 };
 
-// Homepage inspiration gallery. Swap each `image` for your own curated or
-// AI-generated theme photo whenever you like — the layout stays the same.
+// Homepage inspiration gallery. Drop your AI-generated photos into
+// /public/themes (named <id>.jpg) and they appear automatically; until then
+// each card shows a representative fallback image.
 const THEMES: Theme[] = [
   {
     id: "woodland-fairy",
     name: "Woodland Fairy",
-    blurb: "Sage, gold & greenery with paper lanterns and fairy lights.",
+    blurb: "Sage, gold & greenery.",
     starter:
       "A woodland-fairy birthday with sage green and gold, paper lanterns, fairy lights, lots of greenery, and a little craft table.",
-    image: "https://loremflickr.com/600/750/fairy,forest,party?lock=201",
+    image: "/themes/woodland-fairy.jpg",
+    fallback: "https://loremflickr.com/600/750/fairy,forest,party?lock=201",
   },
   {
     id: "boho-garden",
     name: "Boho Garden",
-    blurb: "Pampas, terracotta & cream for a relaxed, pretty party.",
+    blurb: "Pampas, terracotta & cream.",
     starter:
       "A boho garden party with pampas grass, terracotta and cream, candlelight, a grazing table, and a relaxed, grown-up-pretty feel.",
-    image: "https://loremflickr.com/600/750/boho,garden,party?lock=202",
+    image: "/themes/boho-garden.jpg",
+    fallback: "https://loremflickr.com/600/750/boho,garden,party?lock=202",
   },
   {
     id: "under-the-sea",
     name: "Under the Sea",
-    blurb: "Soft blues, pearls & shells, calm and dreamy.",
+    blurb: "Soft blues, pearls & shells.",
     starter:
       "An under-the-sea party with soft blues, pearls and shells, waves of streamers, and a calm, dreamy vibe.",
-    image: "https://loremflickr.com/600/750/ocean,party,decoration?lock=203",
+    image: "/themes/under-the-sea.jpg",
+    fallback: "https://loremflickr.com/600/750/ocean,party,decoration?lock=203",
   },
   {
     id: "vintage-tea",
     name: "Vintage Tea Party",
-    blurb: "Pastel florals, lace & dainty china.",
+    blurb: "Pastel florals & dainty china.",
     starter:
       "A vintage tea party with pastel florals, lace, dainty china, and a sweet, old-fashioned charm.",
-    image: "https://loremflickr.com/600/750/tea,party,vintage?lock=204",
+    image: "/themes/vintage-tea.jpg",
+    fallback: "https://loremflickr.com/600/750/tea,party,vintage?lock=204",
   },
   {
     id: "enchanted-princess",
     name: "Enchanted Princess",
-    blurb: "Blush, gold & tulle with a touch of sparkle.",
+    blurb: "Blush, gold & a touch of sparkle.",
     starter:
       "An enchanted princess party with blush and gold, tulle, a touch of sparkle, and a magical castle feel.",
-    image: "https://loremflickr.com/600/750/princess,party,pink?lock=205",
+    image: "/themes/enchanted-princess.jpg",
+    fallback: "https://loremflickr.com/600/750/princess,party,pink?lock=205",
   },
   {
     id: "safari-adventure",
     name: "Safari Adventure",
-    blurb: "Warm neutrals, greenery & playful animal touches.",
+    blurb: "Warm neutrals & greenery.",
     starter:
       "A safari adventure party with warm neutrals, greenery, animal touches, and a playful explorer feel.",
-    image: "https://loremflickr.com/600/750/safari,animals,party?lock=206",
+    image: "/themes/safari-adventure.jpg",
+    fallback: "https://loremflickr.com/600/750/safari,animals,party?lock=206",
   },
 ];
 
@@ -228,10 +236,17 @@ export default function Home() {
             <button className="theme-card" key={t.id} onClick={() => pickTheme(t)}>
               <img
                 src={t.image}
+                data-fallback={t.fallback}
                 alt={t.name}
                 loading="lazy"
                 onError={(e) => {
-                  e.currentTarget.style.display = "none";
+                  const img = e.currentTarget;
+                  if (!img.dataset.fellBack && img.dataset.fallback) {
+                    img.dataset.fellBack = "1";
+                    img.src = img.dataset.fallback;
+                  } else {
+                    img.style.display = "none";
+                  }
                 }}
               />
               <span className="veil" />

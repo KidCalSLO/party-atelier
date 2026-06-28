@@ -791,8 +791,8 @@ button.cta:disabled {
 
 .themes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
 }
 
 .theme-card {
@@ -836,22 +836,22 @@ button.cta:disabled {
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 16px 16px 18px;
+  padding: 11px 12px 13px;
   color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .theme-name {
-  font-size: 23px;
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.12;
 }
 
 .theme-blurb {
   font-family: "Jost", sans-serif;
-  font-size: 12px;
-  line-height: 1.45;
+  font-size: 10.5px;
+  line-height: 1.4;
   color: rgba(255, 255, 255, 0.86);
 }
