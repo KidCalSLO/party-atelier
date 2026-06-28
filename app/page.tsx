@@ -202,13 +202,13 @@ export default function Home() {
 
       <section className="hero">
         <div className="hero-inner">
-          <span className="label">Luxe kids&apos; parties, DIY budget</span>
+          <span className="label">Luxe parties, DIY budget</span>
           <h1 className="serif">
             A party they&apos;ll never forget, <em>made by you</em>.
           </h1>
           <div className="rule" />
           <p className="lede">
-            Tell us your child&apos;s dream party and the budget you&apos;re
+            Tell us the party you&apos;re dreaming up and the budget you&apos;re
             working with. We&apos;ll style it beautifully and hand you a simple
             shopping list — high-end looks, do-it-yourself prices.
           </p>
@@ -276,7 +276,7 @@ export default function Home() {
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                placeholder="A woodland-fairy 5th birthday for ~15 kids. Soft sage and gold, paper lanterns, a little craft table, a balloon arch, and a simple cake bar."
+                placeholder="A garden 40th birthday for ~30 guests — eucalyptus and gold, candlelight, a grazing table, and a cocktail moment."
               />
             </label>
           ) : (
@@ -404,7 +404,7 @@ export default function Home() {
 
       <footer className="footer">
         <span className="wordmark">Party Atelier</span>
-        <p className="tag">Magical kids&apos; parties, made by you</p>
+        <p className="tag">Beautiful parties, made by you</p>
       </footer>
     </>
   );

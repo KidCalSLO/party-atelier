@@ -1,4 +1,5 @@
 import type { Category } from "./types";
+import { cacheKey, getCached, setCached } from "./cache";
 
 // A real product pulled live from a shopping API.
 export interface LiveResult {
@@ -17,7 +18,7 @@ const CATEGORY_QUERY: Record<Category, string> = {
   tableware: "party tableware",
   lighting: "party string lights",
   food_drink: "party serveware",
-  activities: "kids party games",
+  activities: "party games",
   favors: "party favors",
 };
 
@@ -34,6 +35,11 @@ export async function searchLiveProducts(
 ): Promise<LiveResult[] | null> {
   const key = process.env.PRODUCT_API_KEY;
   if (!key) return null;
+
+  // Reuse a recent search for the same category + look, if one is cached.
+  const ck = cacheKey(category, keywords);
+  const cached = await getCached(ck);
+  if (cached) return cached;
 
   const q = `${keywords} ${CATEGORY_QUERY[category]}`.trim();
   const url =
@@ -70,6 +76,7 @@ export async function searchLiveProducts(
       })
       .filter((p): p is LiveResult => p !== null);
 
+    await setCached(ck, products);
     return products;
   } catch {
     return null;

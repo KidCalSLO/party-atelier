@@ -77,6 +77,15 @@ mind your plan's monthly search quota. Note: live buy links go straight to the
 merchant and aren't affiliate-attributed — wrap them in your affiliate network's
 deep links later to earn on live results.
 
+### Caching live searches (save API quota)
+
+If Supabase is configured, live product searches are cached in a `product_cache`
+table keyed by category + look. A repeat or similar request (same style/colors)
+reuses the cached results instead of spending another API search, which stretches
+your free/paid quota a long way. Run `supabase/schema.sql` to create the table.
+Cached results are reused for `PRODUCT_CACHE_TTL_HOURS` (default 7 days) — lower it
+if you want fresher prices, raise it to save more searches.
+
 ## Add real renders (Job 3)
 
 Set `IMAGE_API_KEY` and implement `generateImage()` in `lib/render.ts` with your

@@ -24,6 +24,19 @@ create table if not exists plans (
   created_at  timestamptz not null default now()
 );
 
+-- Caches live shopping-API results so similar requests reuse them instead of
+-- spending another API search. Non-sensitive (public product listings).
+create table if not exists product_cache (
+  key         text primary key,
+  results     jsonb not null,
+  created_at  timestamptz not null default now()
+);
+
+alter table product_cache enable row level security;
+create policy "read cache" on product_cache for select to anon using (true);
+create policy "write cache" on product_cache for insert to anon with check (true);
+create policy "update cache" on product_cache for update to anon using (true) with check (true);
+
 -- Let the public app read the catalog (read-only). Writes stay server-side.
 alter table products enable row level security;
 create policy "public read products"
